@@ -10,7 +10,7 @@ export default defineConfig({
   test: {
     // The engine is pure and framework-free — a Node environment is all it needs.
     environment: 'node',
-    include: ['src/lib/**/*.{test,spec}.ts'],
+    include: ['src/**/*.{test,spec}.ts'],
     coverage: {
       provider: 'v8',
       include: ['src/lib/color/**/*.ts'],
