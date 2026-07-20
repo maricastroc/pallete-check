@@ -1,8 +1,8 @@
 <h1 align="center">
   <br>
-  <img src="src/app/icon.svg" alt="Palette Check" width="40">
+  <img src="src/app/icon.svg" alt="Repair Trace" width="40">
   <br>
-  Palette Check
+  Repair Trace
   <br>
 </h1>
 
