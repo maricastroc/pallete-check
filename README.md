@@ -20,6 +20,7 @@
 <p align="center">
   <a href="#-features">Features</a> •
   <a href="#-how-it-works">How It Works</a> •
+  <a href="#-measuring-the-model">Measuring the Model</a> •
   <a href="#-the-vocabulary">Vocabulary</a> •
   <a href="#ℹ%EF%B8%8F-how-to-run-the-application">How To Run</a> •
   <a href="#-try-these">Try These</a> •
@@ -41,6 +42,7 @@
 |                                       |                                                                                                                                                                                                                                                                                                                                                                     |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🔒 Luminance-only repair**          | The model owns hue and chroma; the engine repairs failing contrast by moving **only lightness**. Because `h` and `c` never change, harmony is preserved _by construction_ — the repair can't drift the brand. The Repair Trace proves it: every marker slides along a luminance axis into the feasible band, with `H` and `C` shown locked.                            |
+| **📊 The model, measured**            | The deterministic engine _cages_ the model — and a separate **eval / variance harness** (`npm run eval`) also _measures_ it. It scores only what the engine leaves to the LLM: JSON & schema reliability, pre-sanitize range adherence, harmony and status-hue conventions, distinctiveness vs. the generic "AI purple," repair load, and output variance across repeated runs — over a **versioned golden prompt set** so results stay comparable across models. The cage jails the LLM; the harness proves how well it behaves inside it.        |
 | **🤝 Honest `infeasible` reporting**  | Some colours simply can't clear a contrast rule by lightness alone — a saturated on-colour on a mid-tone brand, say. Instead of quietly faking a pass, the engine reports the token as `infeasible`, shows its best-effort value, and says why. Accessibility as a guarantee means admitting the guarantee's edges.                                                    |
 | **🚦 WCAG 2.1 + APCA, side by side**  | The audit scores all 19 contrast rules under **WCAG 2.1** (ratios) _and_ **APCA** (the WCAG 3 candidate — perceptual, polarity-aware `Lc`). A toggle reveals how the same palette scores under both — and they don't always agree. The engine repairs to WCAG; APCA is a second lens, shown honestly, never over-claimed.                                             |
 | **🖥️ A living design system**         | The preview isn't a static mock — it's a board of real components (buttons in every state, inputs, menus, tables, alerts, badges, dialogs, toasts, tabs) repainted by the tokens in real time. Generate a new palette and watch an entire design system be applied at once.                                                                                           |
@@ -71,9 +73,11 @@
 | **Engine**       | Pure TypeScript — own OKLCH ↔ sRGB maths, WCAG 2.1 contrast, APCA-W3 0.1.9, gamut clamping, and a binary-search repair. **Zero runtime dependencies**, zero React, framework-free                 |
 | **Colour model** | OKLCH throughout — repair moves lightness while hue and chroma stay fixed, which is why harmony survives                                                                                          |
 | **Contrast**     | WCAG 2.1 (ratios) **and** APCA (perceptual `Lc`) as a second lens — the engine repairs to the former and reports the latter                                                                       |
-| **AI**           | Groq (`groq-sdk`) for the palette _proposal_ only, with a **Zod** contract; verification, repair, and export are always local. Falls back to an offline sample when no key is set                 |
+| **AI**           | Groq (`groq-sdk`) for the palette _proposal_ only, with a **Zod** contract (numeric ranges enforced at the boundary), a configurable temperature, and one bounded retry on a bad draw; verification, repair, and export are always local. Falls back to an offline sample when no key is set |
 | **UI**           | Framer Motion, lucide-react, and a small "instrument" component kit (luminance axis, coordinate readouts, colour-vision filters)                                                                  |
 | **Testing**      | **Vitest** + **fast-check** — unit tests plus property tests over the engine, fully offline                                                                                                       |
+| **Evaluation**   | A standalone **eval / variance harness** (`tsx`) that scores the LLM's contribution against a versioned golden prompt set — deterministic against the offline mock, gated on `GROQ_API_KEY` for the real model, and kept out of `npm test`                                                    |
+| **API**          | A dependency-free, per-IP **token-bucket rate limiter** guarding the paid generation route (429 + `Retry-After`), tested with a synthetic clock                                                    |
 
 <br/>
 
@@ -95,6 +99,7 @@ The result is a **living design system**: a preview board of real components rep
 
 - **A tuner that turns the showcase into a tool.** Pick any token and edit it live; the whole pipeline re-runs on every drag. Anchors accept full `L C H`; foreground tokens let you choose hue and chroma while the repair engine owns lightness — so you _feel_ the thesis. Gradient sliders show each dimension's own OKLCH sweep, and dragging the brand hue carries the brand family with it.
 - **Two contrast methods, one honest answer.** The audit scores every rule under WCAG 2.1 and APCA. A WCAG-repaired palette routinely misses APCA's stricter body-text targets, and the app shows that gap plainly rather than hiding it — the engine guarantees WCAG 2.1 and presents APCA as a second lens, never as a promise it didn't make.
+- **The LLM is measured, not just trusted.** Because the engine deliberately fences the model off from accessibility, a separate eval harness scores what's left to it — reliability, brief adherence, distinctiveness, and run-to-run variance — over a fixed golden prompt set. See [Measuring the Model](#-measuring-the-model).
 - **Colour-vision simulation over the preview.** Protanopia, deuteranopia, tritanopia, and grayscale filters applied to the live board, so you can check the design doesn't lean on hue to carry meaning.
 - **Deterministic, shareable, offline-first.** Curated presets and the tuner run the real engine in the browser — no key, no network. A palette encodes into the URL and restores from the link alone. Only the optional prompt bar ever calls a model.
 - **Exports designers actually use.** CSS variables, JSON, Tailwind config, and W3C Design Tokens — copyable and downloadable.
@@ -155,6 +160,8 @@ The central claim is that an accessibility answer is worthless unless it's _guar
 - **`infeasible` is a first-class result.** "This can't be made accessible without changing your hue or chroma" is a correct, useful answer — not an error to hide behind a fake pass.
 - **Two lenses, one honest answer.** WCAG 2.1 is the guarantee; APCA is shown alongside it, and the app admits where they diverge instead of picking whichever looks better.
 - **Accessibility ≠ aesthetics.** The engine guarantees contrast, not beauty. Beauty stays the model's job — and the app never conflates the two.
+- **Cage _and_ measure.** Constraining the model is only half the story; the eval harness measures the half the cage leaves open, so the model's real contribution is a number, not a vibe.
+- **Hardened at the edges.** The `/api/generate` route is rate-limited per IP (a dependency-free token bucket) so a paid model can't be run up by abuse; the proposal contract enforces its numeric ranges at the Zod boundary; and a bad model draw gets one bounded retry before failing with a friendly message.
 
 <br/>
 
@@ -168,6 +175,32 @@ A tool that stakes its value on honesty should be just as honest about its own e
 - **Live AI generation depends on a Groq key and your plan's rate limits.** Without one, the curated presets and the tuner still run the full engine offline; the prompt bar is the only feature that needs the model.
 - **Token _descriptions_ are static.** The human-readable role text is authored, not model-generated — only the colours come from the LLM.
 - **Harmony tolerances are heuristic.** Each scheme has a fixed hue tolerance; "off-scheme" is descriptive, and some drift is perfectly reasonable design.
+- **Real eval numbers need a key.** The harness's offline mock run is deterministic (and a test baseline), but scoring an actual model spends Groq API calls — so `npm run eval` against the real model is opt-in and deliberately kept out of `npm test`.
+
+<br/>
+
+## 📊 Measuring the model
+
+The engine _guarantees_ accessibility, which means the LLM is deliberately fenced off from it. That leaves the real question for any LLM feature: **how good is the part the engine leaves to the model?** A standalone **eval / variance harness** ([`eval/`](eval)) answers it — measuring only the model's actual contribution, never re-testing what the engine already proves.
+
+It runs a **versioned golden prompt set** (a fixed `productType × vibe × scheme` matrix, so runs stay comparable across models and revisions) and reports three families of metric:
+
+- **A · Boundary reliability** — the two things the production client discards after parsing: valid-JSON rate, schema adherence, and **pre-sanitize range adherence** (how often `l/c/h` arrive within the prompt's limits _without_ `materialize` having to clamp them). The model's raw obedience to the output contract.
+- **B · Creative-brief adherence** — the hue identity the engine never touches: does the palette honour the requested **harmony scheme** (measured with the engine's own `checkHarmony`), do the **status colours** land in their conventional families (red / amber / green / blue), does it **avoid the generic "AI purple,"** and how **diverse** are the brand hues across the whole set?
+- **C · Engine coupling** — how good a _seed_ the model handed the solver: the **repair load** (the `ΔL` the engine had to apply) and the **infeasible rate**. A better creative proposal needs less rescuing.
+
+A **variance** pass repeats a subset of prompts at `temperature > 0` and reports the dispersion — circular σ of the brand hue, stability of harmony and conventions — the _reliability_ of the creative output, not just its average.
+
+Crucially, the harness **reuses the real engine** (`assembleResult`, `checkHarmony`) rather than re-implementing it, and only instruments the pre-parse seam the product hides. It runs against the **offline mock** by default — deterministic, no key, a perfect baseline the test suite asserts — and against the **real model** when `GROQ_API_KEY` is set. It is kept **out of `npm test`** (it costs API calls and is non-deterministic); its pure machinery, however, _is_ covered by the suite.
+
+```bash
+npm run eval                 # offline mock — deterministic, no key
+GROQ_API_KEY=… npm run eval  # against the real model
+```
+
+Each run prints a terminal scorecard and writes a JSON report — aggregates per prompt, per scheme, and overall — so a model swap or a prompt change can be tracked over time.
+
+> The engine is the **cage**; the harness is the **measurement**. Together they turn _"I constrained the LLM"_ into _"I constrain **and** measure the LLM."_
 
 <br/>
 
@@ -175,11 +208,12 @@ A tool that stakes its value on honesty should be just as honest about its own e
 
 The engine is a set of pure, deterministic functions, so it's tested the same way — **no network, no live model**. Property tests fuzz the colour maths; unit tests pin every verdict path.
 
-- **87 tests across 11 files**, run with **Vitest** (property tests via **fast-check**).
+- **107 tests across 13 files**, run with **Vitest** (property tests via **fast-check**).
 - **Colour maths** — OKLCH ↔ sRGB round-trips, gamut clamping, WCAG reference values (black vs white is exactly `21`), and the canonical APCA anchors (black-on-white ≈ `+106`, white-on-black ≈ `−108`).
 - **Repair** — feasible-window solving, the **luminance-only invariant** (hue and chroma never move), multi-rule intersection, and honest `infeasible` reporting with a best-effort value.
 - **Properties** — contrast symmetry and `[1, 21]` bounds, and the monotonicity of `luminanceAtL` in lightness _within the gamut the engine actually operates in_ (out-of-gamut clamping legitimately breaks it, so the property is asserted where repair relies on it).
 - **Harmony & export** — scheme tolerance checks and the CSS / JSON / Tailwind / DTCG serializers.
+- **Harness & rate limiter** — the eval metrics (parsing, range, harmony, status, circular variance stats) are unit-tested against fixtures _and_ a full mock sweep that asserts the deterministic baseline; the token-bucket rate limiter is driven entirely by a synthetic clock. Both fully offline — the real-model eval lives in `npm run eval`, never here.
 
 ```bash
 npm test
@@ -217,6 +251,11 @@ npm run dev
 GROQ_API_KEY=your_key_here
 # optional — defaults to llama-3.3-70b-versatile
 GROQ_MODEL=openai/gpt-oss-120b
+# optional — sampling temperature (higher = more varied)
+GROQ_TEMPERATURE=0.7
+# optional — per-IP rate limit on /api/generate (burst / refill-per-minute)
+RATE_LIMIT_BURST=8
+RATE_LIMIT_PER_MINUTE=8
 ```
 
 > With no key set, generation falls back to a built-in offline sample; everything else runs unchanged.
@@ -225,6 +264,12 @@ GROQ_MODEL=openai/gpt-oss-120b
 
 ```bash
 npm test
+```
+
+> Score the model with the eval harness — offline mock by default (deterministic, no key); add a Groq key for the real model:
+
+```bash
+npm run eval
 ```
 
 <br/>
