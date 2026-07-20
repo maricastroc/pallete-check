@@ -13,7 +13,7 @@ export interface FormState {
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
-    <span className="mb-0.5 block text-[10px] font-medium uppercase tracking-[0.08em] text-zinc-400">
+    <span className="mb-0.5 block text-[10px] font-medium uppercase tracking-[0.08em] text-ink-3">
       {children}
     </span>
   );
@@ -46,7 +46,7 @@ export function PromptBar({
           value={value.productType}
           onChange={(e) => onChange({ productType: e.target.value })}
           placeholder="dashboard for a modern fintech"
-          className="w-full bg-transparent text-[14px] text-zinc-900 outline-none placeholder:text-zinc-400"
+          className="w-full bg-transparent text-[14px] text-zinc-900 outline-none placeholder:text-ink-3"
         />
       </div>
 
@@ -58,7 +58,7 @@ export function PromptBar({
           value={value.vibe}
           onChange={(e) => onChange({ vibe: e.target.value })}
           placeholder="premium, calm"
-          className="w-full bg-transparent text-[14px] text-zinc-900 outline-none placeholder:text-zinc-400"
+          className="w-full bg-transparent text-[14px] text-zinc-900 outline-none placeholder:text-ink-3"
         />
       </div>
 
@@ -77,7 +77,7 @@ export function PromptBar({
             </option>
           ))}
         </select>
-        <ChevronDown className="pointer-events-none absolute bottom-2.5 right-3 h-4 w-4 text-zinc-400" />
+        <ChevronDown className="pointer-events-none absolute bottom-2.5 right-3 h-4 w-4 text-ink-3" />
       </div>
 
       <button

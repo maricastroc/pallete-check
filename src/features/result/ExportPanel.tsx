@@ -49,7 +49,7 @@ export function ExportPanel({ themes }: { themes: ThemeSet }) {
           size="sm"
         />
         <div className="flex items-center gap-3">
-          <span className="coord text-[11px] text-zinc-400">
+          <span className="coord text-[11px] text-ink-3">
             {lines.length} lines
           </span>
           <button
@@ -71,7 +71,7 @@ export function ExportPanel({ themes }: { themes: ThemeSet }) {
             <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
             <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
           </div>
-          <span className="coord ml-2 text-[11px] text-zinc-500">{meta.file}</span>
+          <span className="coord ml-2 text-[11px] text-ink-2">{meta.file}</span>
           <span className="coord ml-auto text-[10px] uppercase tracking-[0.12em] text-zinc-600">
             light + dark
           </span>

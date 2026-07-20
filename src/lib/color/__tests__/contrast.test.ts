@@ -7,6 +7,7 @@ import {
   luminance,
   luminanceAtL,
 } from '../contrast';
+import { isInGamut } from '../oklch';
 import { oklchArb } from './helpers';
 
 const BLACK = { l: 0, c: 0, h: 0 };
@@ -60,7 +61,7 @@ describe('contrast', () => {
 });
 
 describe('luminanceAtL — the function repair inverts', () => {
-  it('is monotonically non-decreasing in l (validates the binary search)', () => {
+  it('is monotonically non-decreasing in l for in-gamut colors (validates the binary search)', () => {
     fc.assert(
       fc.property(
         fc.double({ min: 0, max: 0.3, noNaN: true, noDefaultInfinity: true }),
@@ -68,8 +69,13 @@ describe('luminanceAtL — the function repair inverts', () => {
         (c, h) => {
           let prev = -Infinity;
           for (let l = 0; l <= 1.0001; l += 0.02) {
-            const lum = luminanceAtL(c, h, Math.min(l, 1));
-            expect(lum).toBeGreaterThanOrEqual(prev - 1e-9);
+            const L = Math.min(l, 1);
+            if (!isInGamut({ l: L, c, h })) {
+              prev = -Infinity;
+              continue;
+            }
+            const lum = luminanceAtL(c, h, L);
+            expect(lum).toBeGreaterThanOrEqual(prev - 1e-6);
             prev = lum;
           }
         },

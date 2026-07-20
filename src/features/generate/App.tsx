@@ -76,13 +76,13 @@ function Section({
     >
       <div className="mb-7 flex items-end justify-between gap-4 border-b border-black/8 pb-4">
         <div className="flex items-center gap-3">
-          <span className="coord rounded-md border border-black/10 bg-white px-1.5 py-1 text-[10px] font-medium text-zinc-500">
+          <span className="coord rounded-md border border-black/10 bg-white px-1.5 py-1 text-[10px] font-medium text-ink-2">
             {n}
           </span>
           <div>
             <h2 className="text-xl font-semibold tracking-tight text-zinc-900 sm:text-2xl">{title}</h2>
             {note && (
-              <div className="coord mt-0.5 text-[10px] uppercase tracking-widest text-zinc-400">{note}</div>
+              <div className="coord mt-0.5 text-[10px] uppercase tracking-widest text-ink-3">{note}</div>
             )}
           </div>
         </div>
@@ -233,7 +233,7 @@ export function App() {
           </span>
           <span className="text-[15px] font-semibold tracking-tight">Palette Check</span>
         </div>
-        <span className="coord hidden text-[11px] uppercase tracking-[0.12em] text-zinc-400 sm:block">
+        <span className="coord hidden text-[11px] uppercase tracking-[0.12em] text-ink-3 sm:block">
           LLM proposes · Math guarantees
         </span>
       </header>
@@ -246,15 +246,15 @@ export function App() {
 
         <div className="mx-auto max-w-6xl px-6 pt-10 sm:pt-16">
           <div className="mx-auto max-w-2xl text-center">
-            <div className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-zinc-400">
+            <div className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-ink-3">
               Accessible design tokens
             </div>
             <h1 className="mt-4 text-4xl font-semibold leading-[1.05] tracking-tight text-zinc-950 sm:text-5xl lg:text-[3.5rem]">
               Generate the palette.
               <br />
-              <span className="text-zinc-400">Guarantee the contrast.</span>
+              <span className="text-ink-3">Guarantee the contrast.</span>
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-zinc-500">
+            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-ink-2">
               Describe a product and get accessible light &amp; dark tokens — proposed by a model,
               verified against WCAG, and repaired where it missed.
             </p>
@@ -275,7 +275,7 @@ export function App() {
                 onChange={setTheme}
               />
               <div className="flex flex-wrap items-center justify-center gap-1.5">
-                <span className="coord flex items-center gap-1 text-[10px] uppercase tracking-wide text-zinc-400">
+                <span className="coord flex items-center gap-1 text-[10px] uppercase tracking-wide text-ink-3">
                   <Eye className="h-3 w-3" />
                   Vision
                 </span>
@@ -287,7 +287,7 @@ export function App() {
                     className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
                       vision === m.value
                         ? 'bg-zinc-900 text-white'
-                        : 'border border-black/10 bg-white text-zinc-500 hover:border-black/20 hover:text-zinc-900'
+                        : 'border border-black/10 bg-white text-ink-2 hover:border-black/20 hover:text-zinc-900'
                     }`}
                   >
                     {m.label}
@@ -306,7 +306,7 @@ export function App() {
               </div>
               <div className="mt-3 flex min-h-4 items-center justify-center">
                 {visionCaption && (
-                  <span className="coord text-center text-[11px] text-zinc-500">{visionCaption}</span>
+                  <span className="coord text-center text-[11px] text-ink-2">{visionCaption}</span>
                 )}
               </div>
               <AnimatePresence>
@@ -361,7 +361,7 @@ export function App() {
               onSubmit={() => generate()}
             />
             <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
-              <span className="coord text-[11px] uppercase tracking-wide text-zinc-400">Presets</span>
+              <span className="coord text-[11px] uppercase tracking-wide text-ink-3">Presets</span>
               {PRESETS.map((p) => (
                 <button
                   key={p.label}
@@ -394,11 +394,11 @@ export function App() {
               >
                 {harmony.ok ? 'In harmony' : `${harmony.deviations.length} off-scheme`}
               </span>
-              <span className="coord rounded-full border border-black/8 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+              <span className="coord rounded-full border border-black/8 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-ink-2">
                 {edited ? 'Tuned' : !hasGenerated ? 'Sample' : result.source === 'mock' ? 'Preset' : 'AI-generated'}
               </span>
             </div>
-            <p className="mx-auto mt-2 max-w-xl text-[14px] leading-relaxed text-zinc-500">
+            <p className="mx-auto mt-2 max-w-xl text-[14px] leading-relaxed text-ink-2">
               {result.rationale}
             </p>
             <div className="mt-4 flex justify-center">
@@ -478,7 +478,7 @@ export function App() {
 
       <footer className="mx-auto mt-28 max-w-6xl px-6">
         <div className="flex flex-col gap-3 border-t border-black/8 pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-md text-[13px] leading-relaxed text-zinc-500">
+          <p className="max-w-md text-[13px] leading-relaxed text-ink-2">
             <span className="font-medium text-zinc-800">Accessibility ≠ aesthetics.</span> The engine
             guarantees contrast — not beauty. Beauty stays the model&apos;s job.
           </p>
@@ -486,7 +486,7 @@ export function App() {
             href="https://www.w3.org/TR/WCAG21/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 text-[13px] font-medium text-zinc-500 transition-colors hover:text-zinc-900"
+            className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 transition-colors hover:text-zinc-900"
           >
             Built on WCAG 2.1
             <ArrowUpRight className="h-3.5 w-3.5" />

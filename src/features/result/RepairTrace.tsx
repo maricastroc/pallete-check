@@ -53,7 +53,7 @@ function Pipeline() {
                   ? 'bg-zinc-950 text-white'
                   : done
                     ? 'bg-emerald-50 text-emerald-700'
-                    : 'bg-zinc-50 text-zinc-500'
+                    : 'bg-zinc-50 text-ink-2'
               }`}
             >
               <span
@@ -68,7 +68,7 @@ function Pipeline() {
                 <div className="coord text-[9px] uppercase tracking-[0.1em] opacity-70">{s.sub}</div>
               </div>
             </div>
-            {!last && <ArrowRight className="hidden h-4 w-4 shrink-0 text-zinc-300 sm:block" />}
+            {!last && <ArrowRight className="hidden h-4 w-4 shrink-0 text-ink-3 sm:block" />}
           </div>
         );
       })}
@@ -92,10 +92,10 @@ function Invariant({
       className={`inline-flex items-center gap-1.5 rounded-lg border px-2 py-1 ${
         moved
           ? 'border-zinc-900/15 bg-zinc-950 text-white'
-          : 'border-black/8 bg-zinc-50 text-zinc-500'
+          : 'border-black/8 bg-zinc-50 text-ink-2'
       }`}
     >
-      <span className={moved ? 'text-white/70' : 'text-zinc-400'}>{icon}</span>
+      <span className={moved ? 'text-white/70' : 'text-ink-3'}>{icon}</span>
       <span className="coord text-[10px] uppercase tracking-wide">{label}</span>
       <span className="coord text-[11px] font-semibold">{value}</span>
     </span>
@@ -146,7 +146,7 @@ function TraceCard({ step, palette }: { step: RepairStep; palette: Palette }) {
       <div className="mb-4 flex items-center justify-between gap-3">
         <span className="coord text-[14px] font-semibold text-zinc-900">{step.token}</span>
         {step.bindingRule && (
-          <span className="coord rounded-md bg-zinc-100 px-2 py-0.5 text-[10px] text-zinc-500">
+          <span className="coord rounded-md bg-zinc-100 px-2 py-0.5 text-[10px] text-ink-2">
             {step.bindingRule.fg} → {step.bindingRule.bg} ≥ {step.bindingRule.min.toFixed(1)}
           </span>
         )}
@@ -155,13 +155,13 @@ function TraceCard({ step, palette }: { step: RepairStep; palette: Palette }) {
       <div className="mb-5 flex items-center justify-between gap-2">
         <SwatchTile hex={proposedHex} l={step.proposedL} state="ai" />
         <div className="flex flex-col items-center gap-1 px-1">
-          <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-1.5 py-0.5 text-[10px] font-semibold text-rose-600">
+          <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-1.5 py-0.5 text-[10px] font-semibold text-rose-700">
             {step.proposedRatio.toFixed(2)}
           </span>
-          <ArrowRight className="h-4 w-4 text-zinc-300" />
+          <ArrowRight className="h-4 w-4 text-ink-3" />
           <span
             className={`inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
-              passed ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+              passed ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
             }`}
           >
             {step.repairedRatio.toFixed(2)}
@@ -236,7 +236,7 @@ export function RepairTrace({
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 text-[11px] text-zinc-500">
+        <div className="flex flex-wrap items-center gap-3 text-[11px] text-ink-2">
           <span className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full border-2 border-rose-500 bg-white" />
             proposal

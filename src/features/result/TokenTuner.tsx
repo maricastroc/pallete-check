@@ -38,9 +38,9 @@ function Slider({
   return (
     <div>
       <div className="mb-1 flex items-baseline justify-between">
-        <span className="coord flex items-center gap-1 text-[10px] uppercase tracking-wide text-zinc-500">
+        <span className="coord flex items-center gap-1 text-[10px] uppercase tracking-wide text-ink-2">
           {label}
-          {disabled && <Lock className="h-2.5 w-2.5 text-zinc-400" />}
+          {disabled && <Lock className="h-2.5 w-2.5 text-ink-3" />}
         </span>
         <span className="coord text-[11px] font-semibold text-zinc-900 tnum">{display}</span>
       </div>
@@ -88,9 +88,9 @@ export function TokenTuner({
     <div className="bracket rounded-2xl border border-black/10 bg-[color:var(--color-panel)] p-4 shadow-sm">
       <div className="mb-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="h-4 w-4 text-zinc-500" />
+          <SlidersHorizontal className="h-4 w-4 text-ink-2" />
           <span className="text-[13px] font-semibold text-zinc-900">Tune tokens</span>
-          <span className="coord hidden text-[10px] uppercase tracking-wide text-zinc-400 sm:block">
+          <span className="coord hidden text-[10px] uppercase tracking-wide text-ink-3 sm:block">
             {theme} · you pick hue &amp; chroma, math owns lightness
           </span>
         </div>
@@ -117,7 +117,7 @@ export function TokenTuner({
               onClick={() => setSelected(t)}
               title={t}
               className={`flex items-center gap-1.5 rounded-lg px-1.5 py-1 text-[10px] transition-colors ${
-                on ? 'bg-zinc-900 text-white' : 'text-zinc-500 hover:bg-black/5'
+                on ? 'bg-zinc-900 text-white' : 'text-ink-2 hover:bg-black/5'
               }`}
             >
               <span
@@ -160,10 +160,10 @@ export function TokenTuner({
                 {step.infeasible ? ' · infeasible' : ''}
               </div>
             ) : (
-              <div className="mt-1 text-[10px] text-zinc-400">repaired token</div>
+              <div className="mt-1 text-[10px] text-ink-3">repaired token</div>
             )}
             {!anchor && step?.bindingRule && (
-              <div className="coord mt-1 text-[9px] text-zinc-400">
+              <div className="coord mt-1 text-[9px] text-ink-3">
                 {step.bindingRule.fg} → {step.bindingRule.bg} ≥ {step.bindingRule.min.toFixed(1)}
               </div>
             )}
@@ -207,8 +207,8 @@ export function TokenTuner({
       </div>
 
       {!anchor && (
-        <p className="mt-3 flex items-center gap-1.5 text-[11px] leading-relaxed text-zinc-500">
-          <Lock className="h-3 w-3 shrink-0 text-zinc-400" />
+        <p className="mt-3 flex items-center gap-1.5 text-[11px] leading-relaxed text-ink-2">
+          <Lock className="h-3 w-3 shrink-0 text-ink-3" />
           Lightness is owned by the repair engine — change hue or chroma and watch it re-solve.
         </p>
       )}

@@ -41,7 +41,7 @@ function Tile({ token, palette }: { token: TokenName; palette: Palette }) {
         <span className="coord block truncate text-[11px] font-medium text-zinc-800">{token}</span>
         <span className="mt-0.5 block">
           {copied ? (
-            <span className="coord text-[10px] font-medium uppercase text-emerald-600">copied {value}</span>
+            <span className="coord text-[10px] font-medium uppercase text-emerald-700">copied {value}</span>
           ) : (
             <Readout color={color} size="xs" />
           )}
@@ -55,7 +55,7 @@ function ToneMap({ palette }: { palette: Palette }) {
   const track = 'linear-gradient(90deg, #000, #fff)';
   return (
     <div className="select-none">
-      <div className="coord mb-1.5 flex items-center justify-between text-[9px] uppercase tracking-[0.12em] text-zinc-400">
+      <div className="coord mb-1.5 flex items-center justify-between text-[9px] uppercase tracking-[0.12em] text-ink-3">
         <span>Luminance map</span>
         <span>18 tokens</span>
       </div>
@@ -78,7 +78,7 @@ function ToneMap({ palette }: { palette: Palette }) {
         ))}
       </div>
       <div className="tickrule mt-1 h-1 opacity-50" />
-      <div className="coord mt-1 flex justify-between text-[9px] text-zinc-400">
+      <div className="coord mt-1 flex justify-between text-[9px] text-ink-3">
         <span>0.0</span>
         <span>0.5</span>
         <span>1.0 · L</span>
@@ -98,7 +98,7 @@ function ThemeColumn({ theme, palette }: { theme: Theme; palette: Palette }) {
           <span className="h-3 w-3 rounded-full" style={{ backgroundColor: hex(palette.primary) }} />
         </span>
         <span className="text-[13px] font-semibold capitalize text-zinc-900">{theme}</span>
-        <span className="coord ml-auto text-[10px] uppercase tracking-wide text-zinc-400">
+        <span className="coord ml-auto text-[10px] uppercase tracking-wide text-ink-3">
           oklch
         </span>
       </div>
@@ -109,10 +109,10 @@ function ThemeColumn({ theme, palette }: { theme: Theme; palette: Palette }) {
         {GROUPS.map((group) => (
           <div key={group.label}>
             <div className="mb-1.5 flex items-baseline gap-2">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-zinc-500">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-2">
                 {group.label}
               </span>
-              <span className="coord text-[9px] text-zinc-400">{group.hint}</span>
+              <span className="coord text-[9px] text-ink-3">{group.hint}</span>
               <span className="ml-auto h-px flex-1 bg-black/5" />
             </div>
             <div className="grid grid-cols-2 gap-0.5">

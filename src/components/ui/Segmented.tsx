@@ -32,7 +32,7 @@ export function Segmented<T extends string>({
             type="button"
             onClick={() => onChange(opt.value)}
             className={`relative rounded-full font-medium transition-colors ${pad} ${
-              active ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-800'
+              active ? 'text-zinc-900' : 'text-ink-2 hover:text-zinc-800'
             }`}
           >
             {active && (

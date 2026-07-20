@@ -65,7 +65,7 @@ function Level({ label, ok }: { label: string; ok: boolean }) {
   return (
     <span
       className={`coord inline-flex items-center gap-0.5 rounded px-1 py-0.5 text-[10px] font-semibold ${
-        ok ? 'bg-emerald-50 text-emerald-700' : 'bg-zinc-100 text-zinc-300'
+        ok ? 'bg-emerald-50 text-emerald-700' : 'bg-zinc-100 text-ink-3'
       }`}
     >
       {ok && <Check className="h-2.5 w-2.5" strokeWidth={3} />}
@@ -94,9 +94,9 @@ function Row({
       <div className="flex w-44 shrink-0 items-center gap-1.5 sm:w-56">
         <Chip color={hex(palette[rule.fg])} />
         <span className="coord shrink-0 text-[11px] text-zinc-800">{rule.fg}</span>
-        <span className="text-zinc-300">/</span>
+        <span className="text-ink-3">/</span>
         <Chip color={hex(palette[rule.bg])} />
-        <span className="coord truncate text-[11px] text-zinc-400">{rule.bg}</span>
+        <span className="coord truncate text-[11px] text-ink-3">{rule.bg}</span>
       </div>
 
       {wcag ? (
@@ -106,7 +106,7 @@ function Row({
       )}
 
       <div className="flex w-16 shrink-0 items-baseline justify-end gap-1">
-        <span className="coord text-[9px] uppercase text-zinc-400">{wcag ? '' : 'Lc'}</span>
+        <span className="coord text-[9px] uppercase text-ink-3">{wcag ? '' : 'Lc'}</span>
         <span className="coord text-[13px] font-semibold text-zinc-900 tnum">
           {wcag ? result.ratio.toFixed(2) : Math.round(lc)}
         </span>
@@ -115,13 +115,13 @@ function Row({
       <div className="hidden w-14 shrink-0 text-right sm:block">
         {wcag ? (
           <>
-            <span className="coord text-[10px] text-emerald-600 tnum">
+            <span className="coord text-[10px] text-emerald-700 tnum">
               +{(result.ratio - rule.min).toFixed(2)}
             </span>
-            <span className="coord ml-1 text-[10px] text-zinc-300">≥{rule.min.toFixed(1)}</span>
+            <span className="coord ml-1 text-[10px] text-ink-3">≥{rule.min.toFixed(1)}</span>
           </>
         ) : (
-          <span className="coord text-[10px] text-zinc-300">≥{apcaThr}</span>
+          <span className="coord text-[10px] text-ink-3">≥{apcaThr}</span>
         )}
       </div>
 
@@ -180,7 +180,7 @@ export function AuditMatrix({ report, palette }: { report: VerifyReport; palette
         <div className="flex items-center gap-3">
           <span
             className={`flex h-11 w-11 items-center justify-center rounded-xl ${
-              allPass ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+              allPass ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
             }`}
           >
             {allPass ? (
@@ -199,7 +199,7 @@ export function AuditMatrix({ report, palette }: { report: VerifyReport; palette
                   ? 'Meets APCA targets'
                   : `${total - apcaPass} below APCA target`}
             </div>
-            <div className="coord text-[11px] uppercase tracking-[0.1em] text-zinc-400">
+            <div className="coord text-[11px] uppercase tracking-[0.1em] text-ink-3">
               {total} contrast rules · {wcag ? 'WCAG 2.1 AA' : 'APCA · WCAG 3 draft'}
             </div>
           </div>
@@ -241,7 +241,7 @@ export function AuditMatrix({ report, palette }: { report: VerifyReport; palette
       </div>
 
       {!wcag && (
-        <p className="max-w-3xl px-1 text-[12px] leading-relaxed text-zinc-500">
+        <p className="max-w-3xl px-1 text-[12px] leading-relaxed text-ink-2">
           <span className="coord mr-1.5 inline-block rounded bg-zinc-900 px-1.5 py-0.5 align-[1px] text-[9px] font-semibold uppercase text-white">
             2nd lens
           </span>
@@ -260,11 +260,11 @@ export function AuditMatrix({ report, palette }: { report: VerifyReport; palette
           return (
             <div key={group.label} style={{ borderTop: gi > 0 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
               <div className="flex items-baseline gap-2 bg-zinc-50/60 px-4 py-2">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-zinc-500">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-2">
                   {group.label}
                 </span>
-                <span className="coord text-[9px] text-zinc-400">{group.hint}</span>
-                <span className="coord ml-auto text-[10px] text-zinc-400">{rows.length} checks</span>
+                <span className="coord text-[9px] text-ink-3">{group.hint}</span>
+                <span className="coord ml-auto text-[10px] text-ink-3">{rows.length} checks</span>
               </div>
               <div className="divide-y divide-black/5 px-3 pb-1">
                 {rows.map((r, i) => (
@@ -282,10 +282,10 @@ export function AuditMatrix({ report, palette }: { report: VerifyReport; palette
 function Stat({ value, label, muted }: { value: string; label: string; muted?: boolean }) {
   return (
     <div>
-      <div className={`coord text-[20px] font-semibold tnum ${muted ? 'text-zinc-500' : 'text-zinc-900'}`}>
+      <div className={`coord text-[20px] font-semibold tnum ${muted ? 'text-ink-2' : 'text-zinc-900'}`}>
         {value}
       </div>
-      <div className="coord text-[10px] uppercase tracking-[0.08em] text-zinc-400">{label}</div>
+      <div className="coord text-[10px] uppercase tracking-[0.08em] text-ink-3">{label}</div>
     </div>
   );
 }
