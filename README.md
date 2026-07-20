@@ -1,8 +1,8 @@
 <h1 align="center">
   <br>
-  <img src="src/app/icon.svg" alt="Repair Trace" width="40">
+  <img src="src/app/icon.svg" alt="Token Guard" width="40">
   <br>
-  Repair Trace
+  Token Guard
   <br>
 </h1>
 
