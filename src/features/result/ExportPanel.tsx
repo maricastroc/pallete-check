@@ -71,15 +71,15 @@ export function ExportPanel({ themes }: { themes: ThemeSet }) {
             <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
             <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
           </div>
-          <span className="coord ml-2 text-[11px] text-ink-2">{meta.file}</span>
-          <span className="coord ml-auto text-[10px] uppercase tracking-[0.12em] text-zinc-600">
+          <span className="coord ml-2 text-[11px] text-zinc-300">{meta.file}</span>
+          <span className="coord ml-auto text-[10px] uppercase tracking-[0.12em] text-zinc-400">
             light + dark
           </span>
         </div>
-        <div className="max-h-[440px] overflow-auto py-3 font-mono text-[12px] leading-[1.65]">
+        <div className="scroll-instrument-dark max-h-[440px] overflow-auto py-3 font-mono text-[12px] leading-[1.65]">
           {lines.map((ln, i) => (
             <div key={i} className="flex px-4 hover:bg-white/[0.02]">
-              <span className="w-8 shrink-0 select-none pr-4 text-right text-zinc-700 tnum">
+              <span className="w-8 shrink-0 select-none pr-4 text-right text-zinc-400 tnum">
                 {i + 1}
               </span>
               <span className="whitespace-pre text-zinc-300">{ln || ' '}</span>

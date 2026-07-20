@@ -95,6 +95,51 @@ input[type="range"].tuner:disabled::-webkit-slider-thumb {
   letter-spacing: -0.01em;
 }
 
+/* instrument scrollbars: thin, rounded, inset — token-driven to match the chrome */
+.scroll-instrument {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-2) transparent;
+}
+.scroll-instrument::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+.scroll-instrument::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-instrument::-webkit-scrollbar-thumb {
+  background-color: var(--color-line-2);
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.scroll-instrument::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(23, 23, 26, 0.3);
+}
+
+/* dark-surface variant (code editor): translucent white to match its dots/rules */
+.scroll-instrument-dark {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.32) rgba(255, 255, 255, 0.06);
+}
+.scroll-instrument-dark::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.scroll-instrument-dark::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 9999px;
+}
+.scroll-instrument-dark::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.scroll-instrument-dark::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.48);
+}
+
 /* fine measurement ticks used along axes and rules */
 .tickrule {
   background-image: repeating-linear-gradient(
