@@ -19,10 +19,14 @@ export const CORE_TOKENS = [
 
 export type CoreToken = (typeof CORE_TOKENS)[number];
 
+// Airtight bounds at the boundary, matching the ranges the SYSTEM_PROMPT gives
+// the model (l 0–1, c 0–0.37, h 0–360). materialize.sanitize stays as the second
+// line of defense — it still gamut-clamps and normalizes for callers (e.g. the
+// mock, the tuner) that don't pass through this schema.
 const ColorSchema = z.object({
-  l: z.number(),
-  c: z.number(),
-  h: z.number(),
+  l: z.number().min(0).max(1),
+  c: z.number().min(0).max(0.37),
+  h: z.number().min(0).max(360),
 });
 
 const CorePaletteSchema = z.object(

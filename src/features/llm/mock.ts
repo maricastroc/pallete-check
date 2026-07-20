@@ -14,7 +14,7 @@ export function mockProposal(input: GenerateInput): Proposal {
 
   return {
     name: 'Mock Signal',
-    rationale: `An offline placeholder palette for "${input.productType}". Set ANTHROPIC_API_KEY to generate a real one.`,
+    rationale: `An offline placeholder palette for "${input.productType}". Set GROQ_API_KEY to generate a real one.`,
     scheme: input.scheme,
     light: {
       bg: { l: 0.98, c: 0.005, h: H },
