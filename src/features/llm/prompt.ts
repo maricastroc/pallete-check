@@ -22,7 +22,11 @@ Rules:
 - Give surfaces a faint tint of the brand hue rather than pure gray when it suits the mood.
 - Be characterful. Avoid generic "AI demo" palettes — no default purple-on-white. Commit to a point of view.
 
-OUTPUT — respond with ONLY one JSON object, no markdown fences and no commentary:
+REFUSAL: Only if the Product is empty, meaningless, or clearly not a real product or surface you can design for (e.g. random keystrokes), do NOT invent one — respond with ONLY this JSON and nothing else:
+{ "usable": false, "reason": "<one short sentence naming what's missing>" }
+When in any doubt, design the palette rather than refuse.
+
+OUTPUT — otherwise respond with ONLY one JSON object, no markdown fences and no commentary:
 {
   "name": "<short evocative palette name>",
   "rationale": "<one or two sentences on why these colors fit the product>",

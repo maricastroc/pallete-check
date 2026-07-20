@@ -97,7 +97,9 @@ export function App() {
   const [fields, setFields] = useState<FormState>(DEFAULT_INPUT);
   const [result, setResult] = useState<GenerateResult>(DEFAULT_RESULT);
   const [status, setStatus] = useState<Status>('idle');
-  const [error, setError] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<{ tone: 'error' | 'notice'; message: string } | null>(
+    null,
+  );
   const [hasGenerated, setHasGenerated] = useState(false);
   const [theme, setTheme] = useState<Theme>('dark');
   const [morphing, setMorphing] = useState(false);
@@ -176,7 +178,7 @@ export function App() {
 
   async function generate(input: FormState = fields) {
     setStatus('loading');
-    setError(null);
+    setFeedback(null);
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -184,13 +186,26 @@ export function App() {
         body: JSON.stringify(input),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error ?? 'Generation failed.');
+      if (!res.ok) {
+        if (res.status === 422 || data?.unusable) {
+          setFeedback({
+            tone: 'notice',
+            message: data?.error ?? "Couldn't read a product to design for — try describing it.",
+          });
+          setStatus('idle');
+          return;
+        }
+        throw new Error(data?.error ?? 'Generation failed.');
+      }
       commitBase(data as GenerateResult);
       setHasGenerated(true);
       setStatus('idle');
       triggerMorph();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Generation failed.');
+      setFeedback({
+        tone: 'error',
+        message: e instanceof Error ? e.message : 'Generation failed.',
+      });
       setStatus('idle');
     }
   }
@@ -199,7 +214,7 @@ export function App() {
     setFields(p.fields);
     commitBase(p.result);
     setHasGenerated(true);
-    setError(null);
+    setFeedback(null);
     setStatus('idle');
     triggerMorph();
   }
@@ -374,9 +389,15 @@ export function App() {
                 </button>
               ))}
             </div>
-            {error && (
-              <div className="mx-auto mt-4 max-w-md rounded-xl border border-rose-200 bg-rose-50 px-4 py-2.5 text-center text-[13px] text-rose-700">
-                {error}
+            {feedback && (
+              <div
+                className={`mx-auto mt-4 max-w-md rounded-xl border px-4 py-2.5 text-center text-[13px] ${
+                  feedback.tone === 'error'
+                    ? 'border-rose-200 bg-rose-50 text-rose-700'
+                    : 'border-amber-200 bg-amber-50 text-amber-800'
+                }`}
+              >
+                {feedback.message}
               </div>
             )}
           </div>

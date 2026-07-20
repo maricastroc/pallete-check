@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { generatePalette } from '@/features/llm/client';
+import { generatePalette, UnusableInputError } from '@/features/llm/client';
 import { GenerateInputSchema } from '@/features/llm/schema';
 import { RateLimiter, type RateLimitResult } from '@/lib/rateLimit';
 
@@ -59,6 +59,13 @@ export async function POST(req: Request) {
     const result = await generatePalette(parsed.data);
     return NextResponse.json(result, { headers: rateLimitHeaders(rl) });
   } catch (err) {
+    // A deliberate model refusal is not a failure — surface it honestly as 422.
+    if (err instanceof UnusableInputError) {
+      return NextResponse.json(
+        { error: err.reason, unusable: true },
+        { status: 422, headers: rateLimitHeaders(rl) },
+      );
+    }
     const message = err instanceof Error ? err.message : 'Generation failed.';
     return NextResponse.json({ error: message }, { status: 502 });
   }

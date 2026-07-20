@@ -2,7 +2,7 @@ import Groq from 'groq-sdk';
 import { assembleResult } from './generate';
 import { mockProposal } from './mock';
 import { buildUserPrompt, SYSTEM_PROMPT } from './prompt';
-import { ProposalSchema, type GenerateInput, type Proposal } from './schema';
+import { ProposalSchema, RefusalSchema, type GenerateInput, type Proposal } from './schema';
 import type { GenerateResult } from './types';
 
 const MODEL = process.env.GROQ_MODEL ?? 'llama-3.3-70b-versatile';
@@ -27,6 +27,16 @@ class InvalidModelOutput extends Error {
       case 'empty':
         return new Error('Groq returned an empty response. Try again.');
     }
+  }
+}
+
+/**
+ * A deliberate, valid model response: the product wasn't something it could
+ * design for. Not a bad draw to retry — it propagates straight to the API as a 422.
+ */
+export class UnusableInputError extends Error {
+  constructor(readonly reason: string) {
+    super(reason);
   }
 }
 
@@ -73,16 +83,22 @@ async function requestCompletion(groq: Groq, input: GenerateInput): Promise<stri
   return content;
 }
 
-function parseProposal(content: string): Proposal {
+export type ModelOutput =
+  | { kind: 'proposal'; proposal: Proposal }
+  | { kind: 'refusal'; reason: string };
+
+export function parseModelOutput(content: string): ModelOutput {
   let raw: unknown;
   try {
     raw = JSON.parse(content);
   } catch {
     throw new InvalidModelOutput('json');
   }
+  const refusal = RefusalSchema.safeParse(raw);
+  if (refusal.success) return { kind: 'refusal', reason: refusal.data.reason };
   const parsed = ProposalSchema.safeParse(raw);
   if (!parsed.success) throw new InvalidModelOutput('shape');
-  return parsed.data;
+  return { kind: 'proposal', proposal: parsed.data };
 }
 
 async function getProposal(
@@ -109,13 +125,15 @@ async function getProposal(
     }
 
     try {
-      return { proposal: parseProposal(content), source: 'llm' };
+      const output = parseModelOutput(content);
+      if (output.kind === 'refusal') throw new UnusableInputError(output.reason);
+      return { proposal: output.proposal, source: 'llm' };
     } catch (err) {
       if (err instanceof InvalidModelOutput) {
         lastInvalid = err;
         continue;
       }
-      throw err;
+      throw err; // UnusableInputError (or anything else) propagates — no retry
     }
   }
 

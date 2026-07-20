@@ -2,6 +2,7 @@
 
 import { Loader2, Sparkles } from 'lucide-react';
 import type { HarmonyScheme } from '@/lib/color';
+import { isPlausibleProductType } from '@/features/llm/schema';
 import { Select, type SelectOption } from '@/components/ui/Select';
 
 const SCHEME_OPTIONS: SelectOption<HarmonyScheme>[] = [
@@ -36,7 +37,7 @@ export function PromptBar({
   onChange: (patch: Partial<FormState>) => void;
   onSubmit: () => void;
 }) {
-  const canSubmit = value.productType.trim().length > 0 && !loading;
+  const canSubmit = isPlausibleProductType(value.productType) && !loading;
 
   return (
     <form
