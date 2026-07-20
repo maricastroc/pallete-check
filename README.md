@@ -250,7 +250,7 @@ npm test
 > Clone the repository:
 
 ```bash
-git clone https://github.com/maricastroc/pallete-check
+git clone https://github.com/maricastroc/repair-trace
 ```
 
 > Install the dependencies:
