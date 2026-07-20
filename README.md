@@ -35,6 +35,10 @@
   <strong>LLM proposes. Math guarantees.</strong>
 </p>
 
+<p align="center">
+  <img src="docs/desktop-0.png" alt="Origin Trace" width="800" />
+</p>
+
 <br/>
 
 ## 🎨 Features
@@ -106,6 +110,22 @@ The result is a **living design system**: a preview board of real components rep
 - **Exports designers actually use.** CSS variables, JSON, Tailwind config, and W3C Design Tokens — copyable and downloadable.
 
 <br/>
+
+## 🖼️ Screenshots
+
+<table>
+  <tr>
+    <td align="center" width="62%"><strong>Desktop</strong></td>
+    <td align="center" width="38%"><strong>Mobile</strong></td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="docs/desktop-1.png" alt="Home — Desktop" /></td>
+    <td rowspan="2" valign="top"><img src="docs/mobile-1.png" alt="Home - Mobile" /></td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="docs/desktop-2.png" alt="Home — Desktop" /></td>
+  </tr>
+</table>
 
 ## 🔬 How it works
 
