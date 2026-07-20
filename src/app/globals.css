@@ -8,7 +8,7 @@
   --color-panel: #fdfcfa;
   --color-ink: #17171a;
   --color-ink-2: #55555e;
-  --color-ink-3: #6a6a72;
+  --color-ink-3: #5f5f67;
   --color-line: rgba(23, 23, 26, 0.09);
   --color-line-2: rgba(23, 23, 26, 0.16);
 
@@ -31,7 +31,10 @@ body {
   background-position: center top;
 }
 
-/* ---- token-driven surfaces: smooth cross-fade on theme/generate ---- */
+button {
+  cursor: pointer;
+}
+
 [data-token-scope] * {
   transition:
     background-color 0.24s var(--ease-instrument),
@@ -47,13 +50,11 @@ body {
   transition-timing-function: var(--ease-instrument);
 }
 
-/* ---- signature: measurement / instrument language ---- */
 .tnum {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
 }
 
-/* instrument sliders: transparent native track over a gradient bar, styled thumb */
 input[type="range"].tuner {
   -webkit-appearance: none;
   appearance: none;
@@ -95,7 +96,6 @@ input[type="range"].tuner:disabled::-webkit-slider-thumb {
   letter-spacing: -0.01em;
 }
 
-/* instrument scrollbars: thin, rounded, inset — token-driven to match the chrome */
 .scroll-instrument {
   scrollbar-width: thin;
   scrollbar-color: var(--color-line-2) transparent;
@@ -117,7 +117,6 @@ input[type="range"].tuner:disabled::-webkit-slider-thumb {
   background-color: rgba(23, 23, 26, 0.3);
 }
 
-/* dark-surface variant (code editor): translucent white to match its dots/rules */
 .scroll-instrument-dark {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.32) rgba(255, 255, 255, 0.06);
@@ -140,7 +139,6 @@ input[type="range"].tuner:disabled::-webkit-slider-thumb {
   background-color: rgba(255, 255, 255, 0.48);
 }
 
-/* fine measurement ticks used along axes and rules */
 .tickrule {
   background-image: repeating-linear-gradient(
     90deg,
@@ -166,7 +164,6 @@ input[type="range"].tuner:disabled::-webkit-slider-thumb {
   background-size: 22px 22px;
 }
 
-/* corner brackets for instrument panels */
 .bracket {
   position: relative;
 }
@@ -191,7 +188,6 @@ input[type="range"].tuner:disabled::-webkit-slider-thumb {
   border-width: 0 1px 1px 0;
 }
 
-/* the live "repaint" sweep across the preview when a palette is generated */
 @keyframes bench-sweep {
   0% {
     transform: translateX(-30%);

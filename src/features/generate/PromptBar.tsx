@@ -1,9 +1,15 @@
 'use client';
 
-import { ChevronDown, Loader2, Sparkles } from 'lucide-react';
+import { Loader2, Sparkles } from 'lucide-react';
 import type { HarmonyScheme } from '@/lib/color';
+import { Select, type SelectOption } from '@/components/ui/Select';
 
-const SCHEMES: HarmonyScheme[] = ['analogous', 'complementary', 'triadic', 'monochromatic'];
+const SCHEME_OPTIONS: SelectOption<HarmonyScheme>[] = [
+  { value: 'analogous', label: 'Analogous' },
+  { value: 'complementary', label: 'Complementary' },
+  { value: 'triadic', label: 'Triadic' },
+  { value: 'monochromatic', label: 'Monochromatic' },
+];
 
 export interface FormState {
   productType: string;
@@ -64,20 +70,14 @@ export function PromptBar({
 
       <span className="hidden h-9 w-px bg-black/8 sm:block" />
 
-      <div className="relative min-w-0 px-3 py-1.5 sm:w-40">
+      <div className="min-w-0 px-3 py-1.5 sm:w-40">
         <FieldLabel>Harmony</FieldLabel>
-        <select
+        <Select
+          ariaLabel="Harmony scheme"
+          options={SCHEME_OPTIONS}
           value={value.scheme}
-          onChange={(e) => onChange({ scheme: e.target.value as HarmonyScheme })}
-          className="w-full cursor-pointer appearance-none bg-transparent pr-5 text-[14px] capitalize text-zinc-900 outline-none"
-        >
-          {SCHEMES.map((s) => (
-            <option key={s} value={s} className="capitalize">
-              {s}
-            </option>
-          ))}
-        </select>
-        <ChevronDown className="pointer-events-none absolute bottom-2.5 right-3 h-4 w-4 text-ink-3" />
+          onChange={(scheme) => onChange({ scheme })}
+        />
       </div>
 
       <button
